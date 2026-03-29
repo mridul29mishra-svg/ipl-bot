@@ -1,6 +1,11 @@
 import discord
 from discord.ext import commands
 import os
+import sys
+from dotenv import load_dotenv
+
+load_dotenv()
+
 
 intents = discord.Intents.default()
 bot = commands.Bot(command_prefix="!", intents=intents)
@@ -27,4 +32,10 @@ async def help_cmd(interaction: discord.Interaction):
     embed.add_field(name="/matches", value="Upcoming IPL matches", inline=False)
     await interaction.response.send_message(embed=embed)
 
-bot.run(os.getenv("DISCORD_TOKEN"))
+token = os.getenv("DISCORD_TOKEN")
+if not token:
+    print("ERROR: Bot token not found. Please set DISCORD_TOKEN environment variable.")
+    sys.exit(1)
+
+bot.run(token)
+
