@@ -26,5 +26,20 @@ async def help_cmd(interaction: discord.Interaction):
     embed.add_field(name="/history", value="Your bets", inline=False)
     embed.add_field(name="/matches", value="Upcoming IPL matches", inline=False)
     await interaction.response.send_message(embed=embed)
-
+keep_alive()
 bot.run(os.getenv("DISCORD_TOKEN"))
+from flask import Flask
+from threading import Thread
+
+app = Flask('')
+
+@app.route('/')
+def home():
+    return "Bot is alive!"
+
+def run():
+    app.run(host='0.0.0.0', port=8080)
+
+def keep_alive():
+    t = Thread(target=run)
+    t.start()
